@@ -1,0 +1,32 @@
+---
+title: "newFeatures"
+author: "Jeff Huskey"
+date: "February 27, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+teams <- read_csv(file = "~/march/Data/Teams.csv")
+```
+
+## Feature Engineering
+
+This document outlines the new features (variables) created in each of the datasets in an attempt to improve model performance
+
+## Teams
+
+yearsD1 = the number of years the team has been or was D1. Note, this may be target leakage, see example below:
+
+```{r teams, echo = TRUE}
+teams <- mutate(teams,
+                yearsD1 = LastD1Season - FirstD1Season
+                )
+
+filter(teams,
+       LastD1Season == 2010
+       )
+```
+
+If yearsD1 was used in predicting the 2009 tourney, then there is target leakage. Will need to account for this.

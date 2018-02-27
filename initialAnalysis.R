@@ -3,7 +3,6 @@
 # 1) Import, 2) Tidy, 3) Transform, 4) Visualize, 5) Model, 6) Communicate
 
 # Import ----
-setwd("~/marchMadness")
 library(tidyverse)
 
 cities <- read_csv(file = "~/march/Data/Cities.csv")
@@ -34,7 +33,20 @@ teamSpellings <- read_csv(file = "~/march/Data/TeamSpellings.csv")
 
 # Tidy ----
 summary(massey)
+str(massey)
 summary(regularSeasonCompactResults) # aggregate the season data for each team
 summary(regularSeasonDetailedResults)
 summary(secondaryTourneyCompactResults) # could use as another source for model optimization - you wouldn't have these results to use ot predict
 summary(NCAATourneyCompactResults)
+NCAATourneyCompactResults
+regularSeasonDetailedResults
+# create a table that has a row per team with the aggregate statistics from the season
+teams
+
+# Transform ----
+# create a new variable on teams data representing number of years as D1 team
+teams <- mutate(teams,
+                yearsD1 = LastD1Season - FirstD1Season
+                )
+
+
