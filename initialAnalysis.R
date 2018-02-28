@@ -142,6 +142,23 @@ lossStats <- rename(lossStats,
                     TeamID = LTeamID # renaming LTeamID for binding
                     )
 
+
+# bind winStats and lossStats.
+# grouped by Team, Season, W/L
+setequal(winStats, lossStats)
+
+teamStats <- bind_rows(winStats, lossStats)
+
+# add new variables to teamStats
+teamStats <- mutate(teamStats,
+                    )
+
+
+
+
+
+# Explore ----
+
 ggplot(data = winStats, mapping = aes(x = games, y = sFGA3)) +
   geom_point(aes(size = aSpr), alpha = 1/3) + 
   geom_smooth(se = FALSE)
@@ -150,13 +167,14 @@ ggplot(data = lossStats, mapping = aes(x = games, y = sFGA3)) +
   geom_point(aes(size = aSpr), alpha = 1/3) + 
   geom_smooth(se = FALSE)
 
-# bind winStats and lossStats.
-# grouped by Team, Season, W/L
-setequal(winStats, lossStats)
-
-teamStats <- bind_rows(winStats, lossStats)
-
 ggplot(data = teamStats, mapping = aes(x = games, y = sFGA3)) +
   geom_point(aes(size = aSpr), alpha = 1/3) +
   geom_smooth(se = FALSE) +
   facet_wrap(~ WL)
+
+ggplot(data = teamStats, mapping = aes(x = WL, y = sFGA3)) +
+  geom_boxplot() +
+  facet_wrap(~ Season)
+
+ggplot(data = teamStats, mapping = aes(x = aFGA3, colour = WL)) +
+  geom_freqpoly()
