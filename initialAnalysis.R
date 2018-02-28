@@ -51,7 +51,13 @@ teams <- mutate(teams,
 
 # adding variables to regularSeasonDetailedResults
 regularSeasonDetailedResultsM <- mutate(regularSeasonDetailedResults, 
-                                        Spr = WScore - LScore # point spread
+                                        Spr = WScore - LScore, # point spread
+                                        WFGP = WFGM / WFGA, # field goal percentage
+                                        WFG3P = WFGM3 / WFGA3, # 3 point FG percentage
+                                        WFTP = WFTM / WFTA, # free throw percentage
+                                        LFGP = LFGM / LFGA, # field goal percentage
+                                        LFG3P = LFGM3 / LFGA3, # 3 point FG percentage
+                                        LFTP = LFTM / LFTA # free throw percentage
                                         )
 
 # aggregate statistics from regular season by winning team
@@ -77,10 +83,13 @@ winStats <- regularSeasonDetailedResultsM %>%
     aSpr = mean(Spr), # avg point spread
     aFGM = mean(WFGM), # mean of field goals made
     aFGA = mean(WFGA), # mean of field goals attempted
+    aFGP = mean(WFGP), # mean of field goal percentage
     aFGM3 = mean(WFGM3), # mean of 3 pointers made
     aFGA3 = mean(WFGA3), # mean of 3 pointers attempted
+    aFG3P = mean(WFG3P), # mean of 3 point percentage
     aFTM = mean(WFTM), # mean of free throws made
     aFTA = mean(WFTA), # mean of free throws attempted
+    aFTP = mean(WFTP), # mean of free throw percentage
     aOR = mean(WOR), # mean of offensive rebounds
     aDR = mean(WDR), # mean of defensive rebounds
     aAst = mean(WAst), # mean of assists
@@ -121,10 +130,13 @@ lossStats <- regularSeasonDetailedResultsM %>%
     aSpr = mean(Spr), # avg point spread
     aFGM = mean(LFGM), # mean of field goals made
     aFGA = mean(LFGA), # mean of field goals attempted
+    aFGP = mean(LFGP), # mean of field goal percentage
     aFGM3 = mean(LFGM3), # mean of 3 pointers made
     aFGA3 = mean(LFGA3), # mean of 3 pointers attempted
+    aFG3P = mean(LFG3P), # mean of 3 point percentage
     aFTM = mean(LFTM), # mean of free throws made
     aFTA = mean(LFTA), # mean of free throws attempted
+    aFTP = mean(WFTP), # mean of free throw percentage
     aOR = mean(LOR), # mean of offensive rebounds
     aDR = mean(LDR), # mean of defensive rebounds
     aAst = mean(LAst), # mean of assists
@@ -149,9 +161,7 @@ setequal(winStats, lossStats)
 
 teamStats <- bind_rows(winStats, lossStats)
 
-# add new variables to teamStats
-teamStats <- mutate(teamStats,
-                    )
+
 
 
 
