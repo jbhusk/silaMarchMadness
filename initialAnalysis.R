@@ -58,84 +58,105 @@ regularSeasonDetailedResultsM <- mutate(regularSeasonDetailedResults,
 winStats <- regularSeasonDetailedResultsM %>%
   group_by(WTeamID, Season) %>%
   summarise(
-    wins = n(), # count of wins
+    games = n(), # count of wins/games
     sPts = sum(WScore), # sum of points scored
-    sWFGM = sum(WFGM), # sum of field goals made
-    sWFGA = sum(WFGA), # sum of field goals attempted
-    sWFGM3 = sum(WFGM3), # sum of 3 pointers made
-    sWFGA3 = sum(WFGA3), # sum of 3 pointers attempted
-    sWFTM = sum(WFTM), # sum of free throws made
-    sWFTA = sum(WFTA), # sum of free throws attempted
-    sWOR = sum(WOR), # sum of offensive rebounds
-    sWDR = sum(WDR), # sum of defensive rebounds
-    sWAst = sum(WAst), # sum of assists
-    sWTO = sum(WTO), # sum of turnovers committed
-    sWStl = sum(WStl), # sum of steals
-    sWBlk = sum(WBlk), # sum of blocks
-    sWPF = sum(WPF), # sum of personal fouls
+    sFGM = sum(WFGM), # sum of field goals made
+    sFGA = sum(WFGA), # sum of field goals attempted
+    sFGM3 = sum(WFGM3), # sum of 3 pointers made
+    sFGA3 = sum(WFGA3), # sum of 3 pointers attempted
+    sFTM = sum(WFTM), # sum of free throws made
+    sFTA = sum(WFTA), # sum of free throws attempted
+    sOR = sum(WOR), # sum of offensive rebounds
+    sDR = sum(WDR), # sum of defensive rebounds
+    sAst = sum(WAst), # sum of assists
+    sTO = sum(WTO), # sum of turnovers committed
+    sStl = sum(WStl), # sum of steals
+    sBlk = sum(WBlk), # sum of blocks
+    sPF = sum(WPF), # sum of personal fouls
     aPts = mean(WScore), # avg points scored
     aSpr = mean(Spr), # avg point spread
-    aWFGM = mean(WFGM), # mean of field goals made
-    aWFGA = mean(WFGA), # mean of field goals attempted
-    aWFGM3 = mean(WFGM3), # mean of 3 pointers made
-    aWFGA3 = mean(WFGA3), # mean of 3 pointers attempted
-    aWFTM = mean(WFTM), # mean of free throws made
-    aWFTA = mean(WFTA), # mean of free throws attempted
-    aWOR = mean(WOR), # mean of offensive rebounds
-    aWDR = mean(WDR), # mean of defensive rebounds
-    aWAst = mean(WAst), # mean of assists
-    aWTO = mean(WTO), # mean of turnovers committed
-    aWStl = mean(WStl), # mean of steals
-    aWBlk = mean(WBlk), # mean of blocks
-    aWPF = mean(WPF) # mean of personal fouls
+    aFGM = mean(WFGM), # mean of field goals made
+    aFGA = mean(WFGA), # mean of field goals attempted
+    aFGM3 = mean(WFGM3), # mean of 3 pointers made
+    aFGA3 = mean(WFGA3), # mean of 3 pointers attempted
+    aFTM = mean(WFTM), # mean of free throws made
+    aFTA = mean(WFTA), # mean of free throws attempted
+    aOR = mean(WOR), # mean of offensive rebounds
+    aDR = mean(WDR), # mean of defensive rebounds
+    aAst = mean(WAst), # mean of assists
+    aTO = mean(WTO), # mean of turnovers committed
+    aStl = mean(WStl), # mean of steals
+    aBlk = mean(WBlk), # mean of blocks
+    aPF = mean(WPF) # mean of personal fouls
   )
+
+winStats <- mutate(winStats,
+                   WL = "W" # create a Win/Loss variable for when binding
+                   )
+
+winStats <- rename(winStats,
+                   TeamID = WTeamID # renaming WTeamID for binding
+                   )
 
 # aggregate statistics from regular season by losing team
 lossStats <- regularSeasonDetailedResultsM %>%
   group_by(LTeamID, Season) %>%
   summarise(
-    losses = n(), # count of losses
+    games = n(), # count of losses/games
     sPts = sum(LScore), # sum of points scored
-    sLFGM = sum(LFGM), # sum of field goals made
-    sLFGA = sum(LFGA), # sum of field goals attempted
-    sLFGM3 = sum(LFGM3), # sum of 3 pointers made
-    sLFGA3 = sum(LFGA3), # sum of 3 pointers attempted
-    sLFTM = sum(LFTM), # sum of free throws made
-    sLFTA = sum(LFTA), # sum of free throws attempted
-    sLOR = sum(LOR), # sum of offensive rebounds
-    sLDR = sum(LDR), # sum of defensive rebounds
-    sLAst = sum(LAst), # sum of assists
-    sLTO = sum(LTO), # sum of turnovers committed
-    sLStl = sum(LStl), # sum of steals
-    sLBlk = sum(LBlk), # sum of blocks
-    sLPF = sum(LPF), # sum of personal fouls
+    sFGM = sum(LFGM), # sum of field goals made
+    sFGA = sum(LFGA), # sum of field goals attempted
+    sFGM3 = sum(LFGM3), # sum of 3 pointers made
+    sFGA3 = sum(LFGA3), # sum of 3 pointers attempted
+    sFTM = sum(LFTM), # sum of free throws made
+    sFTA = sum(LFTA), # sum of free throws attempted
+    sOR = sum(LOR), # sum of offensive rebounds
+    sDR = sum(LDR), # sum of defensive rebounds
+    sAst = sum(LAst), # sum of assists
+    sTO = sum(LTO), # sum of turnovers committed
+    sStl = sum(LStl), # sum of steals
+    sBlk = sum(LBlk), # sum of blocks
+    sPF = sum(LPF), # sum of personal fouls
     aPts = mean(LScore), # avg points scored
     aSpr = mean(Spr), # avg point spread
-    aLFGM = mean(LFGM), # mean of field goals made
-    aLFGA = mean(LFGA), # mean of field goals attempted
-    aLFGM3 = mean(LFGM3), # mean of 3 pointers made
-    aLFGA3 = mean(LFGA3), # mean of 3 pointers attempted
-    aLFTM = mean(LFTM), # mean of free throws made
-    aLFTA = mean(LFTA), # mean of free throws attempted
-    aLOR = mean(LOR), # mean of offensive rebounds
-    aLDR = mean(LDR), # mean of defensive rebounds
-    aLAst = mean(LAst), # mean of assists
-    aLTO = mean(LTO), # mean of turnovers committed
-    aLStl = mean(LStl), # mean of steals
-    aLBlk = mean(LBlk), # mean of blocks
-    aLPF = mean(LPF) # mean of personal fouls
+    aFGM = mean(LFGM), # mean of field goals made
+    aFGA = mean(LFGA), # mean of field goals attempted
+    aFGM3 = mean(LFGM3), # mean of 3 pointers made
+    aFGA3 = mean(LFGA3), # mean of 3 pointers attempted
+    aFTM = mean(LFTM), # mean of free throws made
+    aFTA = mean(LFTA), # mean of free throws attempted
+    aOR = mean(LOR), # mean of offensive rebounds
+    aDR = mean(LDR), # mean of defensive rebounds
+    aAst = mean(LAst), # mean of assists
+    aTO = mean(LTO), # mean of turnovers committed
+    aStl = mean(LStl), # mean of steals
+    aBlk = mean(LBlk), # mean of blocks
+    aPF = mean(LPF) # mean of personal fouls
   )
 
+lossStats <- mutate(lossStats,
+                    WL = "L" # create a Win/Loss variable for when binding
+                    )
 
-ggplot(data = winStats, mapping = aes(x = wins, y = sWFGA3)) +
+lossStats <- rename(lossStats,
+                    TeamID = LTeamID # renaming LTeamID for binding
+                    )
+
+ggplot(data = winStats, mapping = aes(x = games, y = sFGA3)) +
   geom_point(aes(size = aSpr), alpha = 1/3) + 
   geom_smooth(se = FALSE)
 
-ggplot(data = lossStats, mapping = aes(x = losses, y = sLFGA3)) +
+ggplot(data = lossStats, mapping = aes(x = games, y = sFGA3)) +
   geom_point(aes(size = aSpr), alpha = 1/3) + 
   geom_smooth(se = FALSE)
 
 # bind winStats and lossStats.
 # grouped by Team, Season, W/L
-# stats
-teamStats <- 
+setequal(winStats, lossStats)
+
+teamStats <- bind_rows(winStats, lossStats)
+
+ggplot(data = teamStats, mapping = aes(x = games, y = sFGA3)) +
+  geom_point(aes(size = aSpr), alpha = 1/3) +
+  geom_smooth(se = FALSE) +
+  facet_wrap(~ WL)
