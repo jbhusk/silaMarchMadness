@@ -162,8 +162,32 @@ setequal(winStats, lossStats)
 teamStats <- bind_rows(winStats, lossStats)
 
 
+# rough notes on structure of the data to use to train model
+# season, teamId1, teamId2, team1win (1,0) <-- create from NCAATourneyDetailedResults
+# then append aggregate regular season stats (teamStats) to the above (note to self, will need to aggregate the WL variables together)
 
+filter(teamStats, TeamID == 1101)
 
+t <- teamStats %>%
+  select(
+    TeamID, Season, games, aPts, WL
+  ) %>%
+  filter(
+    TeamID == 1101
+  )
+
+t <- spread(t, key = WL, value = games)
+t %>%
+  group_by(TeamID, Season) %>%
+  summarise(
+    aPts = mean(aPts), # need weighted avg
+    gamesW = sum(W, na.rm = TRUE),
+    gamesL = sum(L, na.rm = TRUE)
+    )
+
+# need to create gamesW and gamesL as variables
+teamStats2 <- teamStats %>%
+  
 
 
 
@@ -186,5 +210,19 @@ ggplot(data = teamStats, mapping = aes(x = WL, y = sFGA3)) +
   geom_boxplot() +
   facet_wrap(~ Season)
 
-ggplot(data = teamStats, mapping = aes(x = aFGA3, colour = WL)) +
+ggplot(data = teamStats, mapping = aes(x = aFG3P, colour = WL)) +
   geom_freqpoly()
+
+ggplot(data = teamStats, mapping = aes(x = aFGP, colour = WL)) +
+  geom_freqpoly()
+
+ggplot(data = teamStats, mapping = aes(x = aFTP, colour = WL)) +
+  geom_freqpoly() #free throw percentage not significantly different shapes between Wins and losses
+
+
+
+
+# Model ----
+
+# models to try: randomforest, xgboost
+library(xgboost)
